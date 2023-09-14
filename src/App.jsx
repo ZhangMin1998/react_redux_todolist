@@ -1,6 +1,8 @@
 import './app.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteTask, toggleTask, allSelect } from './store/modules/taskStore'
+import { deleteTask, toggleTask, allSelect, addTask } from './store/modules/taskStore'
+import { useState } from 'react'
+import uuid from 'react-uuid'
 
 function App() {
   // 使用redux数据
@@ -21,6 +23,7 @@ function App() {
     const action = toggleTask(id)
     dispatch(action)
   }
+
   // 切换全选状态
   const allChange = (e) => {
     // console.log(e)
@@ -28,15 +31,33 @@ function App() {
     dispatch(action)
   }
 
+  // 新增 受控表单
+  const [taskValue, setTaskValue] = useState('')
+  const addNewTask = (e) => {
+    // console.log(e)
+    if (e.keyCode === 13 && taskValue !== '') {
+      const action = addTask({
+        id: uuid(),
+        title: taskValue,
+        done: false
+      })
+      dispatch(action)
+      setTaskValue('') // 添加完后清空输入框
+    }
+  }
+
   return (
     <section className="todoapp">
       <header className="header">
-        <h1>todos</h1>
+        <h1>redux-todos</h1>
         <input
           className="new-todo"
           autoFocus
           autoComplete="off"
           placeholder="What needs to be done?"
+          value={taskValue}
+          onChange={(e) => setTaskValue(e.target.value)}
+          onKeyUp={addNewTask}
         />
       </header>
       <section className="main">
@@ -84,3 +105,9 @@ export default App
 // 1. 在store中的reducers函数中定义修改数据的action函数控制done字段的变化
 // 2. 导出相应的action函数 供组件使用
 // 3. 组件中通过 checked属性控制是否全选的UI显示，在change事件中触发action
+
+// 新增实现
+// 1. 在redux中定义新增的方法 addTask
+// 2. 在组件中通过受控的方式 记录输入框中的数据
+// 3. keyUp事件中判断当前是否点击的是enter[keyCode为13]  如果是通过dispatch执行修改
+// 使用react-uuid

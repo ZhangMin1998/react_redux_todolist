@@ -30,17 +30,21 @@ const taskStore = createSlice({
     // 全选
     allSelect (state, action) {
       state.list.forEach(item => item.done = action.payload)
+    },
+    // 新增
+    addTask (state, action) {
+      state.list.push(action.payload)
     }
   }
 })
 
 // 生成修改数据的方法导出
-const { deleteTask, toggleTask, allSelect } = taskStore.actions
+const { deleteTask, toggleTask, allSelect, addTask } = taskStore.actions
 
 const taskReducer = taskStore.reducer
 
 // 导出修改数据的函数
-export { deleteTask, toggleTask, allSelect }
+export { deleteTask, toggleTask, allSelect, addTask }
 
 // 生成reducer 导出 供index.js做组合模块
 export default taskReducer
