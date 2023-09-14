@@ -16,6 +16,12 @@ function App() {
     dispatch(action)
   }
 
+  // 切换单选状态
+  const tolTask = (id) => {
+    const action = toggleTask(id)
+    dispatch(action)
+  }
+
   return (
     <section className="todoapp">
       <header className="header">
@@ -35,7 +41,7 @@ function App() {
             list.map(item => (
               <li key={item.id} className={item.done ? 'todo completed' : 'todo'}>
                 <div className='view'>
-                <input className="toggle" type="checkbox" checked={item.done} />
+                <input className="toggle" type="checkbox" checked={item.done} onChange={() => tolTask(item.id)}/>
                 <label>{item.title}</label>
                 <button className="destroy" onClick={() => delTask(item.id)}></button>
                 </div>
@@ -57,3 +63,7 @@ export default App
 // 实现删除
 // 1. 在store的reducers选项中定义修改数据的方法 然后导出
 // 2. 在组件中通过dispatch函数触发方法的执行并传入id参数
+
+// 切换单选状态
+// 1. 在reducers选项中创建切换状态的函数，内部通过传入的id找到要修改的项 进行取反
+// 2. 组件中通过dispatch函数触发并传入id
