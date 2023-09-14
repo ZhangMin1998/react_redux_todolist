@@ -1,6 +1,11 @@
 import './app.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteTask, toggleTask, allSelect } from './store/modules/taskStore'
 
 function App() {
+  // 使用redux数据
+  const { list } = useSelector(state => state.taskStore)
+
   return (
     <section className="todoapp">
       <header className="header">
@@ -16,7 +21,18 @@ function App() {
         <input id="toggle-all" className="toggle-all" type="checkbox" />
         <label htmlFor="toggle-all"></label>
         <ul className="todo-list">
-          <li className="todo">
+          {
+            list.map(item => (
+              <li key={item.id} className={item.done ? 'todo completed' : 'todo'}>
+                <div className='view'>
+                <input className="toggle" type="checkbox" checked={item.done} />
+                <label>{item.title}</label>
+                <button className="destroy"></button>
+                </div>
+              </li>
+            ))
+          }
+          {/* <li className="todo">
             <div className="view">
               <input className="toggle" type="checkbox" />
               <label>learn react</label>
@@ -29,7 +45,7 @@ function App() {
               <label>learn react</label>
               <button className="destroy"></button>
             </div>
-          </li>
+          </li> */}
         </ul>
       </section>
     </section>
