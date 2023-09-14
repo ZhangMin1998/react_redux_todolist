@@ -21,6 +21,12 @@ function App() {
     const action = toggleTask(id)
     dispatch(action)
   }
+  // 切换全选状态
+  const allChange = (e) => {
+    // console.log(e)
+    const action = allSelect(e)
+    dispatch(action)
+  }
 
   return (
     <section className="todoapp">
@@ -34,7 +40,13 @@ function App() {
         />
       </header>
       <section className="main">
-        <input id="toggle-all" className="toggle-all" type="checkbox" />
+        <input
+          id="toggle-all"
+          className="toggle-all"
+          type="checkbox"
+          checked={list.every(item => item.done)}
+          onChange={(e) => allChange(e.target.checked)}
+        />
         <label htmlFor="toggle-all"></label>
         <ul className="todo-list">
           {
@@ -67,3 +79,8 @@ export default App
 // 切换单选状态
 // 1. 在reducers选项中创建切换状态的函数，内部通过传入的id找到要修改的项 进行取反
 // 2. 组件中通过dispatch函数触发并传入id
+
+// 切换全选状态 done字段的值始终和当前全选框的状态决定
+// 1. 在store中的reducers函数中定义修改数据的action函数控制done字段的变化
+// 2. 导出相应的action函数 供组件使用
+// 3. 组件中通过 checked属性控制是否全选的UI显示，在change事件中触发action

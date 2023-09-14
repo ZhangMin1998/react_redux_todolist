@@ -29,7 +29,7 @@ const taskStore = createSlice({
     },
     // 全选
     allSelect (state, action) {
-      state.list.forEach(item => item.done === action.payload)
+      state.list.forEach(item => item.done = action.payload)
     }
   }
 })
