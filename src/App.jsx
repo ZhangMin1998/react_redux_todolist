@@ -6,6 +6,16 @@ function App() {
   // 使用redux数据
   const { list } = useSelector(state => state.taskStore)
 
+  // 得到dispatch方法  修改数据
+  const dispatch = useDispatch()
+
+  // 删除
+  const delTask = (id) => {
+    // console.log(id)
+    const action = deleteTask(id)
+    dispatch(action)
+  }
+
   return (
     <section className="todoapp">
       <header className="header">
@@ -27,25 +37,11 @@ function App() {
                 <div className='view'>
                 <input className="toggle" type="checkbox" checked={item.done} />
                 <label>{item.title}</label>
-                <button className="destroy"></button>
+                <button className="destroy" onClick={() => delTask(item.id)}></button>
                 </div>
               </li>
             ))
           }
-          {/* <li className="todo">
-            <div className="view">
-              <input className="toggle" type="checkbox" />
-              <label>learn react</label>
-              <button className="destroy"></button>
-            </div>
-          </li>
-          <li className="todo completed">
-            <div className="view">
-              <input className="toggle" type="checkbox" defaultChecked={true} />
-              <label>learn react</label>
-              <button className="destroy"></button>
-            </div>
-          </li> */}
         </ul>
       </section>
     </section>
@@ -53,3 +49,11 @@ function App() {
 }
 
 export default App
+
+// 渲染列表
+// 1. 在组件中通过核心方法 useSelector方法使用数据
+// 2. 使用map方法进行列表遍历
+
+// 实现删除
+// 1. 在store的reducers选项中定义修改数据的方法 然后导出
+// 2. 在组件中通过dispatch函数触发方法的执行并传入id参数
